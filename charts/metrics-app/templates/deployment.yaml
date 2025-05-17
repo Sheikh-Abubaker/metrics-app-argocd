@@ -39,7 +39,3 @@ spec:
                 secretKeyRef:
                   name: metrics-app-secret
                   key: PASSWORD
-          livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
-          readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
