@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: {{ include "metrics-app.fullname" . }}
   namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/ignore-healthcheck: "true"
   labels:
     {{- include "metrics-app.labels" . | nindent 4 }}
 spec:
