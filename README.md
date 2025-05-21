@@ -28,193 +28,189 @@ Make sure you have the following installed:
 
 ## 🧪 Quick Start
 
-### 1. Start Docker and create KIND Cluster
+- Start Docker and create KIND Cluster
 
-```bash
-kind create cluster --name sre-assignment
-```
+    ```bash
+    kind create cluster --name sre-assignment
+    ```
 
-### 2. Install NGINX Ingress Controller
+- Install NGINX Ingress Controller
 
-Create ```ingress-nginx``` namespace to install NGINX Ingress Controller:
-```bash
-kubectl create namespace ingress-nginx
-```
+    Create ```ingress-nginx``` namespace to install NGINX Ingress Controller:
+    ```bash
+    kubectl create namespace ingress-nginx
+    ```
 
-Pull the chart sources:
+    Pull the chart sources:
 
-```bash
-helm pull oci://ghcr.io/nginx/charts/nginx-ingress --untar --version 2.1.0
-```
+    ```bash
+    helm pull oci://ghcr.io/nginx/charts/nginx-ingress --untar --version 2.1.0
+    ```
 
-Change your working directory to nginx-ingress:
+    Change your working directory to nginx-ingress:
 
-```bash
-cd nginx-ingress
-```
+    ```bash
+    cd nginx-ingress
+    ```
 
-Install the chart in ```ingress-nginx``` namespace :
+    Install the chart in ```ingress-nginx``` namespace :
 
-```bash
-helm install nginx-ingress . -n ingress-nginx
-```
+    ```bash
+    helm install nginx-ingress . -n ingress-nginx
+    ```
 
 
-### 3. [Install Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd)
+- [Install Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd)
 
-### 4. [Install Argo CD CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/#installation)
+- [Install Argo CD CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/#installation)
 
-### 5. [Access The Argo CD API Server](https://argo-cd.readthedocs.io/en/latest/getting_started/#3-access-the-argo-cd-api-server)
+- [Access The Argo CD API Server](https://argo-cd.readthedocs.io/en/latest/getting_started/#3-access-the-argo-cd-api-server)
 
-### 6. [Login Using The CLI](https://argo-cd.readthedocs.io/en/latest/getting_started/#4-login-using-the-cli)
+- [Login Using The CLI](https://argo-cd.readthedocs.io/en/latest/getting_started/#4-login-using-the-cli)
 
 ---
 
 ## 🛠 Deploy the App with ArgoCD
 
-### 1. Clone this repository
+- Clone this repository
 
-Install [git](https://git-scm.com/downloads) (if not already)
+    Install [git](https://git-scm.com/downloads) (if not already)
 
-```bash
-git clone https://github.com/Sheikh-Abubaker/sre-assignment.git
-```
+    ```bash
+    git clone https://github.com/Sheikh-Abubaker/sre-assignment.git
+    ```
 
-Change your working directory to sre-assignment:
+    Change your working directory to sre-assignment:
 
-```bash
-cd sre-assignment
-```
+    ```bash
+    cd sre-assignment
+    ```
 
-### 2. Apply the ArgoCD Application
+- Apply the ArgoCD Application
 
-```bash
-kubectl apply -f argocd/metrics-app.yaml
-```
+    ```bash
+    kubectl apply -f argocd/metrics-app.yaml
+    ```
 
-### 3. [Sync (Deploy) The Application](https://argo-cd.readthedocs.io/en/stable/getting_started/#7-sync-deploy-the-application)
+- [Sync (Deploy) The Application](https://argo-cd.readthedocs.io/en/stable/getting_started/#7-sync-deploy-the-application)
 
 ---
 
 ## 🔁 Access the App
 
-Retrieve NGINX Ingress Controller service:
+- Retrieve NGINX Ingress Controller service:
 
-```bash
-kubectl get svc -n ingress-nginx
-```
+    ```bash
+    kubectl get svc -n ingress-nginx
+    ```
 
-Excpected output
-```bash
-NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
-nginx-ingress-controller   LoadBalancer   10.96.218.123   <pending>     80:30141/TCP,443:30595/TCP   6h20m
-```
-
-
-Port forward to the NGINX Ingress Controller:
-
-```bash
-kubectl port-forward -n ingress-nginx svc/nginx-ingress-controller 8085:80
-```
-
-Then access:
-
-Using curl
-```bash
-curl http://localhost:8085/counter
-```
-OR
-Visit http://localhost:8085/counter
+    Excpected output
+    ```bash
+    NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+    nginx-ingress-controller   LoadBalancer   10.96.218.123   <pending>     80:30141/TCP,443:30595/TCP   6h20m
+    ```
 
 
-Each call should return an incremented counter value.
+- Port forward to the NGINX Ingress Controller:
 
-```
-$ for i in $(seq 0 20); do time curl localhost:8085/counter; done
-Counter value: 1
-real    0m0.191s
-user    0m0.003s
-sys     0m0.007s
-Counter value: 2
-real    0m0.012s
-user    0m0.004s
-sys     0m0.000s
-Counter value: 3
-real    0m0.014s
-user    0m0.004s
-sys     0m0.000s
-Counter value: 4
-real    0m0.035s
-user    0m0.006s
-sys     0m0.001s
-Counter value: 5
-real    0m0.026s
-user    0m0.000s
-sys     0m0.008s
-Counter value: 6
-real    0m0.022s
-user    0m0.000s
-sys     0m0.008s
-Counter value: 7
-real    0m0.026s
-user    0m0.000s
-sys     0m0.010s
-Counter value: 8
-real    0m0.028s
-user    0m0.008s
-sys     0m0.001s
-Counter value: 9
-real    0m0.046s
-user    0m0.007s
-sys     0m0.008s
-Counter value: 10
-real    0m0.066s
-user    0m0.019s
-sys     0m0.001s
-Counter value: 11
-real    0m0.074s
-user    0m0.000s
-sys     0m0.019s
-Counter value: 12
-real    0m0.093s
-user    0m0.011s
-sys     0m0.012s
-Counter value: 13
-real    0m0.133s
-user    0m0.016s
-sys     0m0.007s
-Counter value: 14
-real    0m0.091s
-user    0m0.000s
-sys     0m0.016s
-Counter value: 15
-real    0m0.103s
-user    0m0.007s
-sys     0m0.015s
-Counter value: 16
-real    0m31.614s
-user    0m0.019s
-sys     0m4.044s
-Counter value: 17
-real    0m0.152s
-user    0m0.000s
-sys     0m0.016s
-Counter value: 18
-real    0m0.027s
-user    0m0.000s
-sys     0m0.008s
-Counter value: 19
-real    0m0.057s
-user    0m0.007s
-sys     0m0.001s
-Counter value: 20
-real    0m0.022s
-user    0m0.006s
-sys     0m0.001s
-Counter value: 21
-real    0m0.027s
-user    0m0.007s
-sys     0m0.001s
-```
+    ```bash
+    kubectl port-forward -n ingress-nginx svc/nginx-ingress-controller 8085:80
+    ```
 
----
+- Access Using curl or visit [webpage](http://localhost:8085/counter):
+    ```bash
+    curl http://localhost:8085/counter
+    ```
+
+
+- Each call should return an incremented counter value.
+
+    ```bash
+    for i in $(seq 0 20); do time curl localhost:8085/counter; done
+    Counter value: 1
+    real    0m0.191s
+    user    0m0.003s
+    sys     0m0.007s
+    Counter value: 2
+    real    0m0.012s
+    user    0m0.004s
+    sys     0m0.000s
+    Counter value: 3
+    real    0m0.014s
+    user    0m0.004s
+    sys     0m0.000s
+    Counter value: 4
+    real    0m0.035s
+    user    0m0.006s
+    sys     0m0.001s
+    Counter value: 5
+    real    0m0.026s
+    user    0m0.000s
+    sys     0m0.008s
+    Counter value: 6
+    real    0m0.022s
+    user    0m0.000s
+    sys     0m0.008s
+    Counter value: 7
+    real    0m0.026s
+    user    0m0.000s
+    sys     0m0.010s
+    Counter value: 8
+    real    0m0.028s
+    user    0m0.008s
+    sys     0m0.001s
+    Counter value: 9
+    real    0m0.046s
+    user    0m0.007s
+    sys     0m0.008s
+    Counter value: 10
+    real    0m0.066s
+    user    0m0.019s
+    sys     0m0.001s
+    Counter value: 11
+    real    0m0.074s
+    user    0m0.000s
+    sys     0m0.019s
+    Counter value: 12
+    real    0m0.093s
+    user    0m0.011s
+    sys     0m0.012s
+    Counter value: 13
+    real    0m0.133s
+    user    0m0.016s
+    sys     0m0.007s
+    Counter value: 14
+    real    0m0.091s
+    user    0m0.000s
+    sys     0m0.016s
+    Counter value: 15
+    real    0m0.103s
+    user    0m0.007s
+    sys     0m0.015s
+    Counter value: 16
+    real    0m31.614s
+    user    0m0.019s
+    sys     0m4.044s
+    Counter value: 17
+    real    0m0.152s
+    user    0m0.000s
+    sys     0m0.016s
+    Counter value: 18
+    real    0m0.027s
+    user    0m0.000s
+    sys     0m0.008s
+    Counter value: 19
+    real    0m0.057s
+    user    0m0.007s
+    sys     0m0.001s
+    Counter value: 20
+    real    0m0.022s
+    user    0m0.006s
+    sys     0m0.001s
+    Counter value: 21
+    real    0m0.027s
+    user    0m0.007s
+    sys     0m0.001s
+    ```
+
+    ---
