@@ -28,7 +28,7 @@ Make sure you have the following installed:
 
 ## 🧪 Quick Start
 
-### 1. Start KIND Cluster
+### 1. Start Docker and create KIND Cluster
 
 ```bash
 kind create cluster --name sre-assignment
@@ -62,33 +62,37 @@ helm install nginx-ingress . -n ingress-nginx
 
 ### 3. [Install Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd)
 
-### 4. [Install Argo CD CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/#installation) 
+### 4. [Install Argo CD CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/#installation)
 
-Retrieve ```ARGOCD_SERVER``` password using Argo CD CLI:
+### 5. [Access The Argo CD API Server](https://argo-cd.readthedocs.io/en/latest/getting_started/#3-access-the-argo-cd-api-server)
 
-The initial password for the ```admin``` account is auto-generated and stored as clear text in the field ```password``` in a secret named ```argocd-initial-admin-secret``` in your Argo CD installation namespace. You can simply retrieve this password using the ```argocd``` CLI:
-
-```bash
-argocd admin initial-password -n argocd
-```
-
-Access ArgoCD UI:
-
-```bash
-kubectl port-forward svc/argocd-server -n argocd 8080:443
-```
+### 6. [Login Using The CLI](https://argo-cd.readthedocs.io/en/latest/getting_started/#4-login-using-the-cli)
 
 ---
 
 ## 🛠 Deploy the App with ArgoCD
 
-### 1. Apply the ArgoCD Application
+### 1. Clone this repository
+
+Install [git](https://git-scm.com/downloads) (if not already)
 
 ```bash
-kubectl apply -f argocd/app.yaml
+git clone https://github.com/Sheikh-Abubaker/sre-assignment.git
 ```
 
-### 2. [Sync (Deploy) The Application](https://argo-cd.readthedocs.io/en/stable/getting_started/#7-sync-deploy-the-application)
+Change your working directory to sre-assignment:
+
+```bash
+cd sre-assignment
+```
+
+### 2. Apply the ArgoCD Application
+
+```bash
+kubectl apply -f argocd/metrics-app.yaml
+```
+
+### 3. [Sync (Deploy) The Application](https://argo-cd.readthedocs.io/en/stable/getting_started/#7-sync-deploy-the-application)
 
 ---
 
@@ -97,7 +101,7 @@ kubectl apply -f argocd/app.yaml
 Retrieve NGINX Ingress Controller service:
 
 ```bash
-$ kubectl get svc -n ingress-nginx
+kubectl get svc -n ingress-nginx
 ```
 
 Excpected output
