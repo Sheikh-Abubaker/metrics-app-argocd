@@ -1,4 +1,4 @@
-# SRE Assignment – Metrics App
+ Metrics App
 
 This project demonstrates deploying a simple counter-based application using Kubernetes, Helm, and ArgoCD with NGINX Ingress in a local KIND cluster.
 
